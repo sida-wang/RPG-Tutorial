@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Engine.ViewModels;
+using Engine.ViewModels;
 
 namespace UI
 {
@@ -21,9 +21,14 @@ namespace UI
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly GameSession _gameSession;
         public MainWindow()
         {
             InitializeComponent();
+
+            _gameSession = new GameSession();
+
+            DataContext = _gameSession;
         }
     }
 }
