@@ -67,15 +67,10 @@ namespace Engine.Models
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            if (propertyName is null)
-            {
-                throw new ArgumentNullException(nameof(propertyName));
-            }
-
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
