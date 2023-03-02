@@ -4,7 +4,7 @@ namespace Engine.Factories
 {
     internal static class ItemFactory
     {
-        private static List<GameItem> _standardGameItems;
+        private readonly static List<GameItem> _standardGameItems;
         static ItemFactory()
         {
             _standardGameItems = new List<GameItem>
@@ -15,7 +15,7 @@ namespace Engine.Factories
         }
         public static GameItem? CreateGameItem(int itemTypeID)
         {
-            GameItem standardItem = _standardGameItems.FirstOrDefault(item => item.ItemTypeID == itemTypeID);
+            GameItem? standardItem = _standardGameItems.FirstOrDefault(item => item.ItemTypeID == itemTypeID);
             if (standardItem != null)
             {
                 return standardItem.Clone();
