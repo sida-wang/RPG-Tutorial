@@ -13,7 +13,7 @@ namespace Engine.Factories
                 new Weapon(1002, "Rusty Sword", 5, 1, 3)
             };
         }
-        public static GameItem CreateGameItem(int itemTypeID)
+        public static GameItem? CreateGameItem(int itemTypeID)
         {
             GameItem standardItem = _standardGameItems.FirstOrDefault(item => item.ItemTypeID == itemTypeID);
             if (standardItem != null)
