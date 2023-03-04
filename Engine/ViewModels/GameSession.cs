@@ -5,9 +5,9 @@ namespace Engine.ViewModels
 {
     public class GameSession : ObservableObject
     {
-        private Location? _currentLocation;
+        private Location _currentLocation;
         public Player CurrentPlayer { get; set; }
-        public Location? CurrentLocation
+        public Location CurrentLocation
         {
             get => _currentLocation;
             set
