@@ -1,22 +1,26 @@
-﻿namespace Engine.Models
+﻿using Engine.Exceptions;
+
+namespace Engine.Models
 {
     public class World
     {
-        private List<Location> _locations = new List<Location>();
+        private readonly List<Location> _locations = new();
 
         internal void AddLocation(int xCoordinate, int yCoordinate, string name, string description, string imageName)
         {
-            Location loc = new Location();
-            loc.XCoordinate = xCoordinate;
-            loc.YCoordinate = yCoordinate;
-            loc.Name = name;
-            loc.Description = description;
-            loc.ImageName = imageName;
+            Location loc = new()
+            {
+                XCoordinate = xCoordinate,
+                YCoordinate = yCoordinate,
+                Name = name,
+                Description = description,
+                ImageName = imageName
+            };
 
             _locations.Add(loc);
         }
 
-        public Location? LocationAt(int xCoordinate, int yCoordinate)
+        public Location LocationAt(int xCoordinate, int yCoordinate)
         {
             foreach (Location loc in _locations)
             {
@@ -26,7 +30,7 @@
                 }
             }
 
-            return null;
+            throw new LocationNotFoundException($"Location at x:{xCoordinate} y:{yCoordinate} does not exist");
         }
     }
 }
