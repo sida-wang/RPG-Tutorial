@@ -4,7 +4,7 @@
     {
         private readonly List<Location> _locations = new();
 
-        internal void AddLocation(int xCoordinate, int yCoordinate, string name, string description, string imageName)
+        internal void AddLocation(int xCoordinate, int yCoordinate, string name, string description, byte[] image)
         {
             Location loc = new()
             {
@@ -12,7 +12,7 @@
                 YCoordinate = yCoordinate,
                 Name = name,
                 Description = description,
-                ImageName = imageName
+                Image = image
             };
 
             _locations.Add(loc);
