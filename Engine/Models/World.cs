@@ -32,5 +32,18 @@ namespace Engine.Models
 
             throw new LocationNotFoundException($"Location at x:{xCoordinate} y:{yCoordinate} does not exist");
         }
+
+        public bool LocationExistsAt(int xCoordinate, int yCoordinate)
+        {
+            try
+            {
+                LocationAt(xCoordinate, yCoordinate);
+                return true;
+            }
+            catch (LocationNotFoundException)
+            {
+                return false;
+            }
+        }
     }
 }

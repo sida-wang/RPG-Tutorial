@@ -1,4 +1,5 @@
-﻿using Engine.Models;
+﻿using Engine.Exceptions;
+using Engine.Models;
 
 namespace Engine.Factories
 {
@@ -20,9 +21,15 @@ namespace Engine.Factories
                 itemsToComplete, 25, 10, rewardItems));
         }
 
-        internal static Quest? GetQuestByID(int id)
+        internal static Quest GetQuestByID(int id)
         {
-            return _quests.FirstOrDefault(quest => quest.ID == id);
+            Quest? ret = _quests.FirstOrDefault(quest => quest.ID == id);
+            if (ret == null)
+            {
+                throw new QuestNotFoundException($"Quest with id:{id} does not exist in quest factory.");
+            }
+            return ret;
+
         }
     }
 }
