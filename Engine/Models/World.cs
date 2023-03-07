@@ -1,6 +1,4 @@
-﻿using Engine.Exceptions;
-
-namespace Engine.Models
+﻿namespace Engine.Models
 {
     public class World
     {
@@ -29,8 +27,7 @@ namespace Engine.Models
                     return loc;
                 }
             }
-
-            throw new LocationNotFoundException($"Location at x:{xCoordinate} y:{yCoordinate} does not exist");
+            throw new ArgumentException($"Location at x:{xCoordinate} y:{yCoordinate} does not exist");
         }
 
         public bool LocationExistsAt(int xCoordinate, int yCoordinate)
@@ -40,7 +37,7 @@ namespace Engine.Models
                 LocationAt(xCoordinate, yCoordinate);
                 return true;
             }
-            catch (LocationNotFoundException)
+            catch (ArgumentException)
             {
                 return false;
             }

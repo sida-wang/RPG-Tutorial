@@ -1,5 +1,4 @@
-﻿using Engine.Exceptions;
-using Engine.Models;
+﻿using Engine.Models;
 
 namespace Engine.Factories
 {
@@ -26,7 +25,7 @@ namespace Engine.Factories
             Quest? ret = _quests.FirstOrDefault(quest => quest.ID == id);
             if (ret == null)
             {
-                throw new QuestNotFoundException($"Quest with id:{id} does not exist in quest factory.");
+                throw new ArgumentException($"Quest with id:{id} does not exist in quest factory.");
             }
             return ret;
 
