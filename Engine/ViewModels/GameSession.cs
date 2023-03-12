@@ -6,6 +6,7 @@ namespace Engine.ViewModels
     public class GameSession : ObservableObject
     {
         private Location _currentLocation;
+        private Monster? _currentMonster;
         public Player CurrentPlayer { get; set; }
         public Location CurrentLocation
         {
@@ -19,6 +20,17 @@ namespace Engine.ViewModels
                 OnPropertyChanged(nameof(HasLocationToWest));
                 OnPropertyChanged(nameof(HasLocationToEast));
                 GivePlayerQuestsAtLocation();
+                GetMonsterAtLocation();
+            }
+        }
+        public Monster? CurrentMonster
+        {
+            get => _currentMonster;
+            set
+            {
+                _currentMonster = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasMonster));
             }
         }
         public World CurrentWorld { get; set; }
@@ -39,6 +51,7 @@ namespace Engine.ViewModels
         {
             get => CurrentWorld.LocationExistsAt(CurrentLocation.XCoordinate + 1, CurrentLocation.YCoordinate);
         }
+        public bool HasMonster => CurrentMonster != null;
 
         public GameSession()
         {
@@ -95,6 +108,10 @@ namespace Engine.ViewModels
                     CurrentPlayer.Quests.Add(new QuestStatus(quest));
                 }
             }
+        }
+        private void GetMonsterAtLocation()
+        {
+            CurrentMonster = CurrentLocation.GetMonster();
         }
 
     }
