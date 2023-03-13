@@ -1,5 +1,7 @@
-﻿using Engine.ViewModels;
+﻿using Engine.EventArgs;
+using Engine.ViewModels;
 using System.Windows;
+using System.Windows.Documents;
 
 namespace UI
 {
@@ -14,6 +16,7 @@ namespace UI
             InitializeComponent();
 
             _gameSession = new GameSession();
+            _gameSession.OnMessageRaised += OnGameMessageRaised;
 
             DataContext = _gameSession;
         }
@@ -33,6 +36,12 @@ namespace UI
         private void OnClick_MoveWest(object sender, RoutedEventArgs e)
         {
             _gameSession.MoveWest();
+        }
+
+        private void OnGameMessageRaised(object sender, GameMessageEventArgs e)
+        {
+            GameMessages.Document.Blocks.Add(new Paragraph(new Run(e.Message)));
+            GameMessages.ScrollToEnd();
         }
     }
 }

@@ -26,7 +26,9 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
+        <!-- Menu -->
         <Label Grid.Row="0" Grid.Column="0" Content="Menu" Background="AliceBlue"></Label>
+        <!-- Player stats -->
         <Grid Grid.Row="1" Grid.Column="0" Background="Aquamarine">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -55,6 +57,8 @@
             <Label Grid.Row="5" Grid.Column="0" Content="Level:"/>
             <Label Grid.Row="5" Grid.Column="1" Content="{Binding CurrentPlayer.Level}"/>
         </Grid>
+
+        <!-- Gameplay -->
         <Grid Grid.Row="1" Grid.Column="1" Background="Beige">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -66,6 +70,18 @@
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
 
+            <!-- Game Messages -->
+            <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" BorderBrush="Gainsboro" BorderThickness="1">
+                <RichTextBox x:Name="GameMessages" Background="Beige" VerticalScrollBarVisibility="Auto">
+                    <RichTextBox.Resources>
+                        <Style TargetType="{x:Type Paragraph}">
+                            <Setter Property="Margin" Value="0"/>
+                        </Style>
+                    </RichTextBox.Resources>
+                </RichTextBox>
+            </Border>
+            
+            <!-- Location Information -->
             <Border Grid.Row="0" Grid.Column="1" BorderBrush="Gainsboro" BorderThickness="1">
                 <Grid Margin="3">
                     <Grid.RowDefinitions>
@@ -80,6 +96,7 @@
                 </Grid>
             </Border>
 
+            <!-- Monster Information -->
             <Border Grid.Row="1" Grid.Column="1" BorderBrush="Gainsboro" BorderThickness="1">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -96,8 +113,11 @@
                 </Grid>
             </Border>
         </Grid>
+
+        <!-- Inventory and Quests -->
         <Grid Grid.Row="2" Grid.Column="0" Background="BurlyWood">
             <TabControl>
+                <!-- Inventory -->
                 <TabItem Header="Inventory">
                     <DataGrid ItemsSource="{Binding CurrentPlayer.Inventory}" AutoGenerateColumns="False" HeadersVisibility="Column">
                         <DataGrid.Columns>
@@ -106,6 +126,7 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
+                <!-- Quests -->
                 <TabItem Header="Quests">
                     <DataGrid ItemsSource="{Binding CurrentPlayer.Quests}" AutoGenerateColumns="False" HeadersVisibility="Column">
                         <DataGrid.Columns>
@@ -127,6 +148,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
+            <!-- Movement Controls -->
             <Label Grid.Row="0" Grid.Column="0" Content="Combat/Movement Controls"/>
 
             <Grid Grid.Row="0" Grid.Column="1">
