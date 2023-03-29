@@ -44,22 +44,10 @@ namespace Engine.ViewModels
         public Weapon? CurrentWeapon { get; set; }
         public World CurrentWorld { get; set; }
 
-        public bool HasLocationToNorth
-        {
-            get => CurrentWorld.LocationExistsAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1);
-        }
-        public bool HasLocationToSouth
-        {
-            get => CurrentWorld.LocationExistsAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate - 1);
-        }
-        public bool HasLocationToWest
-        {
-            get => CurrentWorld.LocationExistsAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate);
-        }
-        public bool HasLocationToEast
-        {
-            get => CurrentWorld.LocationExistsAt(CurrentLocation.XCoordinate + 1, CurrentLocation.YCoordinate);
-        }
+        public bool HasLocationToNorth => CurrentWorld.LocationExistsAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1);
+        public bool HasLocationToSouth => CurrentWorld.LocationExistsAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate - 1);
+        public bool HasLocationToWest => CurrentWorld.LocationExistsAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate);
+        public bool HasLocationToEast => CurrentWorld.LocationExistsAt(CurrentLocation.XCoordinate + 1, CurrentLocation.YCoordinate);
         public bool HasMonster => CurrentMonster != null;
 
         public GameSession()
