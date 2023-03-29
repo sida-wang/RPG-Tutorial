@@ -22,10 +22,13 @@ namespace Engine.ViewModels
                 OnPropertyChanged(nameof(HasLocationToSouth));
                 OnPropertyChanged(nameof(HasLocationToWest));
                 OnPropertyChanged(nameof(HasLocationToEast));
+                CompleteQuestsAtLocation();
                 GivePlayerQuestsAtLocation();
                 GetMonsterAtLocation();
             }
         }
+
+
         public Monster? CurrentMonster
         {
             get => _currentMonster;
@@ -99,6 +102,45 @@ namespace Engine.ViewModels
                 CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate);
             }
         }
+        private void CompleteQuestsAtLocation()
+        {
+            foreach (Quest quest in CurrentLocation.QuestsAvailableHere)
+            {
+                QuestStatus? questToComplete = CurrentPlayer.Quests.FirstOrDefault(q => q.PlayerQuest.ID == quest.ID && !q.IsCompleted);
+                if (questToComplete != null)
+                {
+                    if (CurrentPlayer.HasAllTheseItems(questToComplete.PlayerQuest.ItemsToComplete))
+                    {
+                        //Take quest items from inventory
+                        foreach (ItemQuantity itemQuantity in questToComplete.PlayerQuest.ItemsToComplete)
+                        {
+                            for (int i = 0; i < itemQuantity.Quantity; i++)
+                            {
+                                CurrentPlayer.RemoveItemFromInventory(CurrentPlayer.Inventory.First(item => item.ItemTypeID == itemQuantity.ItemID));
+                            }
+                        }
+                        RaiseMessage("");
+                        RaiseMessage($"You have completed the '{quest.Name}' quest");
+                        //Give player rewards
+                        CurrentPlayer.ExperiencePoints += quest.RewardExperiencePoints;
+                        RaiseMessage($"You gained {quest.RewardExperiencePoints} exp");
+                        CurrentPlayer.Gold += quest.RewardGold;
+                        RaiseMessage($"You received {quest.RewardGold} gold");
+                        foreach (ItemQuantity itemQuantity in questToComplete.PlayerQuest.RewardItems)
+                        {
+                            GameItem rewardItem = ItemFactory.CreateGameItem(itemQuantity.ItemID)!;
+                            for (int i = 0; i < itemQuantity.Quantity; i++)
+                            {
+                                CurrentPlayer.AddItemToInventory(rewardItem);
+                            }
+                            RaiseMessage($"You receive {itemQuantity.Quantity} {rewardItem.Name}");
+                        }
+                        //Mark quest complete
+                        questToComplete.IsCompleted = true;
+                    }
+                }
+            }
+        }
 
         private void GivePlayerQuestsAtLocation()
         {
@@ -107,6 +149,21 @@ namespace Engine.ViewModels
                 if (!CurrentPlayer.Quests.Any(q => q.PlayerQuest.ID == quest.ID))
                 {
                     CurrentPlayer.Quests.Add(new QuestStatus(quest));
+                    RaiseMessage("");
+                    RaiseMessage($"You receive the '{quest.Name}' quest");
+                    RaiseMessage(quest.Description);
+                    RaiseMessage("Return with:");
+                    foreach (ItemQuantity itemQuantity in quest.ItemsToComplete)
+                    {
+                        RaiseMessage($"    {itemQuantity.Quantity}    {ItemFactory.CreateGameItem(itemQuantity.ItemID)!.Name}");
+                    }
+                    RaiseMessage("And you will receive:");
+                    RaiseMessage($"    {quest.RewardExperiencePoints} experience points");
+                    RaiseMessage($"    {quest.RewardGold} gold");
+                    foreach (ItemQuantity itemQuantity in quest.RewardItems)
+                    {
+                        RaiseMessage($"    {itemQuantity.Quantity}    {ItemFactory.CreateGameItem(itemQuantity.ItemID)!.Name}");
+                    }
                 }
             }
         }
